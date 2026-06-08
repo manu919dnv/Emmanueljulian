@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juego de Preguntas</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f4f4;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+}
+
+.contenedor{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+    width:450px;
+    text-align:center;
+}
+
+h1{
+    color:#333;
+}
+
+.opcion{
+    display:block;
+    width:100%;
+    margin:10px 0;
+    padding:10px;
+    border:none;
+    border-radius:8px;
+    background:#007bff;
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.opcion:hover{
+    background:#0056b3;
+}
+
+#resultado{
+    font-size:20px;
+    font-weight:bold;
+    margin-top:15px;
+}
+</style>
+</head>
+<body>
+
+<div class="contenedor">
+    <h1>🧠 Juego de Preguntas</h1>
+    <h2 id="pregunta"></h2>
+
+    <div id="opciones"></div>
+
+    <p id="resultado"></p>
+</div>
+
+<script>
+const preguntas = [
+{
+    pregunta: "¿Cuál es la capital de México?",
+    opciones: ["Guadalajara", "Monterrey", "Ciudad de México", "Puebla"],
+    correcta: 2
+},
+{
+    pregunta: "¿Cuántos planetas hay en el Sistema Solar?",
+    opciones: ["7", "8", "9", "10"],
+    correcta: 1
+},
+{
+    pregunta: "¿Quién pintó la Mona Lisa?",
+    opciones: ["Picasso", "Van Gogh", "Da Vinci", "Miguel Ángel"],
+    correcta: 2
+},
+{
+    pregunta: "¿Cuál es el océano más grande del mundo?",
+    opciones: ["Atlántico", "Pacífico", "Índico", "Ártico"],
+    correcta: 1
+},
+{
+    pregunta: "¿Cuál es el resultado de 8 × 7?",
+    opciones: ["54", "56", "64", "48"],
+    correcta: 1
+}
+];
+
+let indice = 0;
+let puntuacion = 0;
+
+function mostrarPregunta() {
+    const pregunta = preguntas[indice];
+    document.getElementById("pregunta").textContent = pregunta.pregunta;
+
+    const opcionesDiv = document.getElementById("opciones");
+    opcionesDiv.innerHTML = "";
+
+    pregunta.opciones.forEach((opcion, i) => {
+        const boton = document.createElement("button");
+        boton.textContent = opcion;
+        boton.className = "opcion";
+        boton.onclick = () => verificarRespuesta(i);
+        opcionesDiv.appendChild(boton);
+    });
+}
+
+function verificarRespuesta(respuesta) {
+    if (respuesta === preguntas[indice].correcta) {
+        puntuacion++;
+    }
+
+    indice++;
+
+    if (indice < preguntas.length) {
+        mostrarPregunta();
+    } else {
+        mostrarResultado();
+    }
+}
+
+function mostrarResultado() {
+    document.getElementById("pregunta").textContent = "¡Juego terminado!";
+    document.getElementById("opciones").innerHTML = "";
+    document.getElementById("resultado").textContent =
+        `Tu puntuación fue ${puntuacion} de ${preguntas.length}.`;
+}
+
+mostrarPregunta();
+</script>
+
+</body>
+</html>
